@@ -3,7 +3,7 @@ This repository contains the Python scripts that were used for the large sample 
 
 The folder HPCrunScript contains the Python scripts that were used on the cluster to run the models. Scripts are available for the runs with: the pysteps deterministic setup, the pysteps probabilistic setup, the pysteps setup with only advection and all rainymotion models. Note that the mentioned events in the scripts for the pysteps runs are just a sample of the 1533 events.    
 
-# Use
+# Usage
 For the use of rainymotion and pysteps, please see the aforementioned github pages. Both have example run scripts. 
 
 # Terms of use

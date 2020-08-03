@@ -14,6 +14,6 @@ The scripts in the 'HPCrunScripts' folder are free to use: you can redistribute 
 # References
 Ayzel, G., Heistermann, M., & Winterrath, T. (2019). Optical flow models as an open benchmark for radar-based precipitation nowcasting (rainymotion v0.1). Geoscientic Model Development, 12 (4), 1387-1402. doi: 10.5194/gmd-12-1387-2019.
 
-Imhoff, R. O., Brauer, C. C., Overeem, A., Weerts, A. H., & Uijlenhoet, R. (2020). Spatial and temporal evaluation of radar rainfall nowcasting techniques on 1533 events. Submitted to Water Resources Research.
+Imhoff, R. O., Brauer, C. C., Overeem, A., Weerts, A. H., & Uijlenhoet, R. (2020). Spatial and temporal evaluation of radar rainfall nowcasting techniques on 1,533 events. Water Resources Research, 56, e2019WR026723. doi: 10.1029/2019WR026723.
 
 Pulkkinen, S., Nerini, D., Pérez Hortal, A. A., Velasco-Forero, C., Seed, A., Germann, U., & Foresti, L. (2019). Pysteps: an open-source Python library for probabilistic precipitation nowcasting (v1.0). Geoscientific Model Development, 12 (10), 4185-4219. doi: 10.5194/gmd-12-4185-2019. 

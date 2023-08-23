@@ -2,7 +2,7 @@
 {
     "outputs": {
         // path_outputs : path where to save results (figures, forecasts, etc)
-        "path_outputs": "/u/imhof_rn/Nowcasts/pySTEPS/"
+        "path_outputs": "/space/junzheyin/result/"
     },
     "plot": {
         // "motion_plot" : "streamplot" or "quiver"
@@ -56,7 +56,7 @@
             "importer_kwargs": {}
         },
         "knmi": {
-            "root_path": "./radar/KNMI",
+            "root_path": "/home/hbi/RAD_NL25_RAP_5min",
             "path_fmt": "%Y/%m",
             "fn_pattern": "RAD_NL25_RAP_5min_%Y%m%d%H%M",
             "fn_ext": "h5",

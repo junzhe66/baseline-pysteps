@@ -157,16 +157,16 @@ def initialize_forecast_exporter_netcdf(filename, startdate, timestep,
     X,Y = np.meshgrid(xr, yr)
     pr = pyproj.Proj(metadata["projection"])
     lon,lat = pr(X.flatten(), Y.flatten(), inverse=True)
-
-    var_lon = ncf.createVariable("lon", np.float, dimensions=("y", "x"))
-    var_lon[:] = lon
+    
+    var_lon = ncf.createVariable("lon", float, dimensions=("y", "x"))
+    var_lon[:] = lon.reshape(shape)
     var_lon.standard_name = "longitude"
     var_lon.long_name     = "longitude coordinate"
     # TODO: Don't hard-code the unit.
     var_lon.units         = "degrees_east"
 
-    var_lat = ncf.createVariable("lat", np.float, dimensions=("y", "x"))
-    var_lat[:] = lat
+    var_lat = ncf.createVariable("lat", np.float64, dimensions=("y", "x"))
+    var_lat[:] = lat.reshape(shape)
     var_lat.standard_name = "latitude"
     var_lat.long_name     = "latitude coordinate"
     # TODO: Don't hard-code the unit.
@@ -178,18 +178,18 @@ def initialize_forecast_exporter_netcdf(filename, startdate, timestep,
         _convert_proj4_to_grid_mapping(metadata["projection"])
     # skip writing the grid mapping if a matching name was not found
     if grid_mapping_var_name is not None:
-        var_gm = ncf.createVariable(grid_mapping_var_name, np.int, dimensions=())
+        var_gm = ncf.createVariable(grid_mapping_var_name, int, dimensions=())
         var_gm.grid_mapping_name = grid_mapping_name
         for i in grid_mapping_params.items():
             var_gm.setncattr(i[0], i[1])
 
-    var_ens_num = ncf.createVariable("ens_number", np.int, dimensions=("ens_number",))
+    var_ens_num = ncf.createVariable("ens_number", int, dimensions=("ens_number",))
     if incremental != "member":
         var_ens_num[:] = list(range(1, n_ens_members+1))
     var_ens_num.long_name = "ensemble member"
     var_ens_num.units = ""
 
-    var_time = ncf.createVariable("time", np.int, dimensions=("time",))
+    var_time = ncf.createVariable("time", int, dimensions=("time",))
     if incremental != "timestep":
         var_time[:] = [i*timestep*60 for i in range(1, n_timesteps+1)]
     var_time.long_name = "forecast time"

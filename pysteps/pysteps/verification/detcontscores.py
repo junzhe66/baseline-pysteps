@@ -3,7 +3,7 @@
 import numpy as np
 from scipy.stats import spearmanr, pearsonr
 
-def det_cont_fcst(pred, obs, scores, **kwargs):
+def det_cont_fct(pred, obs, scores, **kwargs):
     """Calculate simple and skill scores for deterministic continuous forecasts
 
     Parameters

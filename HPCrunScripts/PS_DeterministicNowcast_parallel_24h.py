@@ -19,8 +19,8 @@ from osgeo import gdal_array
 from osgeo import ogr, osr
 
 import os
-os.environ['PROJ_LIB'] = r'/u/imhof_rn/anaconda3/pkgs/proj4-5.2.0-h470a237_1/share/proj'
-
+#os.environ['PROJ_LIB'] = r'/u/imhof_rn/anaconda3/pkgs/proj4-5.2.0-h470a237_1/share/proj'
+os.chdir('/users/junzheyin/Large_Sample_Nowcasting_Evaluation/pysteps')
 import mkl
 mkl.set_num_threads(1)
 
@@ -54,14 +54,14 @@ from mpi4py import MPI
 # to the KNMI radar dataset.
 #################
 
-os.chdir('/u/imhof_rn/pysteps-0.2')
+#os.chdir('/u/imhof_rn/pysteps-0.2')
 
 # Catchment filenames and directories
-catchments = True # Put on false when you don't want any slicing for catchments (i.e. you will use the full output)
+catchments = False # Put on false when you don't want any slicing for catchments (i.e. you will use the full output)
 # If catchments = 'False', uncomment the next two lines.
-catchment_filenames = ["/u/imhof_rn/GIS/Catchments_pysteps/Hupsel.shp", "/u/imhof_rn/GIS/Catchments_pysteps/stroomgebied_Regge.shp", "/u/imhof_rn/GIS/Catchments_pysteps/GroteWaterleiding.shp", "/u/imhof_rn/GIS/Catchments_pysteps/Aa.shp", "/u/imhof_rn/GIS/Catchments_pysteps/Reusel.shp", "/u/imhof_rn/GIS/Catchments_pysteps/het_molentje.shp", "/u/imhof_rn/GIS/Catchments_pysteps/Luntersebeek.shp", "/u/imhof_rn/GIS/Catchments_pysteps/Dwarsdiep.shp", "/u/imhof_rn/GIS/Catchments_pysteps/AfwaterendgebiedBoezemsysteem.shp", "/u/imhof_rn/GIS/Catchments_pysteps/HHRijnland.shp", "/u/imhof_rn/GIS/Catchments_pysteps/Beemster.shp", "/u/imhof_rn/GIS/Catchments_pysteps/DeLinde.shp"] # Put here the locations of the shapefiles
+catchment_filenames = ["/bulk/junzheyin/catchmentss/Hupsel.shp", "/bulk/junzheyin/catchments/stroomgebied_Regge.shp", "/bulk/junzheyin/catchments/GroteWaterleiding.shp", "/bulk/junzheyin/catchments/Aa.shp", "/bulk/junzheyin/catchments/Reusel.shp", "/bulk/junzheyin/catchments/het_molentje.shp", "/bulk/junzheyin/catchments/Luntersebeek.shp", "/bulk/junzheyin/catchments/Dwarsdiep.shp", "/bulk/junzheyin/catchments/AfwaterendgebiedBoezemsysteem.shp", "/bulk/junzheyin/catchments/HHRijnland.shp", "/bulk/junzheyin/catchments/Beemster.shp", "/bulk/junzheyin/catchments/DeLinde.shp"] # Put here the locations of the shapefiles
 catchment_names = ['Hupsel', 'Regge', 'GroteWaterleiding', 'Aa', 'Reusel', 'Molentje', 'Luntersebeek', 'Dwarsdiep', 'Delfland', 'Rijnland', 'Beemster', 'Linde'] # A list of catchment names.
-out_dir = "/u/imhof_rn/Nowcasts/pySTEPS" # Just used for logging, the actual
+out_dir = "/users/junzheyin/Large_Sample_Nowcasting_Evaluation/pysteps" # Just used for logging, the actual
 # out_dir is set in the pystepsrc-file.
 
 # Verification settings
@@ -89,94 +89,100 @@ forecast = {
 ## this includes tuneable parameters
 experiment = {
     ## the events           event start     event end       update cycle  data source
-    "data"              : [("201101120405","201101131000",5,"knmi"),
-                            ("201601291405","201601302000",5,"knmi"),
-                            ("201501120805","201501131400",5,"knmi"),
-                            ("201801020905","201801031500",5,"knmi"),
-                            ("201101120305","201101130900",5,"knmi"),
-                            ("201501121105","201501131700",5,"knmi"),
-                            ("201712122205","201712140400",5,"knmi"),
-                            ("201201010905","201201021500",5,"knmi"),
-                            ("201501121005","201501131600",5,"knmi"),
-                            ("201801021105","201801031700",5,"knmi"),
-                            ("201101120405","201101131000",5,"knmi"),
-                            ("201701121305","201701131900",5,"knmi"),
-                            ("201101120405","201101131000",5,"knmi"),
-                            ("201701121305","201701131900",5,"knmi"),
-                            ("200801201805","200801220000",5,"knmi"),
-                            ("201501120905","201501131500",5,"knmi"),
-                            ("201801021105","201801031700",5,"knmi"),
-                            ("201101120405","201101131000",5,"knmi"),
-                            ("201212241705","201212252300",5,"knmi"),
-                            ("201511292305","201512010500",5,"knmi"),
-                            ("201701121305","201701131900",5,"knmi"),
-                            ("201112151305","201112161900",5,"knmi"),
-                            ("201501071705","201501082300",5,"knmi"),
-                            ("201511300205","201512010800",5,"knmi"),
-                            ("201412180505","201412191100",5,"knmi"),
-                            ("201501121105","201501131700",5,"knmi"),
-                            ("200802042305","200802060500",5,"knmi"),
-                            ("201101120305","201101130900",5,"knmi"),
-                            ("201101120305","201101130900",5,"knmi"),
-                            ("201205222205","201205240400",5,"knmi"),
-                            ("201405261905","201405280100",5,"knmi"),
-                            ("201405270805","201405281400",5,"knmi"),
-                            ("201703080005","201703090600",5,"knmi"),
-                            ("201805281705","201805292300",5,"knmi"),
-                            ("201805300605","201805311200",5,"knmi"),
-                            ("201405270805","201405281400",5,"knmi"),
-                            ("201805301605","201805312200",5,"knmi"),
-                            ("200805301705","200805312300",5,"knmi"),
-                            ("201605300605","201605311200",5,"knmi"),
-                            ("201205230605","201205241200",5,"knmi"),
-                            ("201405260905","201405271500",5,"knmi"),
-                            ("201604121405","201604132000",5,"knmi"),
-                            ("201205230005","201205240600",5,"knmi"),
-                            ("201605292305","201605310500",5,"knmi"),
-                            ("201405261405","201405272000",5,"knmi"),
-                            ("201603040205","201603050800",5,"knmi"),
-                            ("201804040405","201804051000",5,"knmi"),
-                            ("201804290005","201804300600",5,"knmi"),
-                            ("201505040905","201505051500",5,"knmi"),
-                            ("201805301105","201805311700",5,"knmi"),
-                            ("201805281505","201805292100",5,"knmi"),
-                            ("201805300805","201805311400",5,"knmi"),
-                            ("201407101205","201407111800",5,"knmi"),
-                            ("201408011405","201408022000",5,"knmi"),
-                            ("201808090705","201808101300",5,"knmi"),
-                            ("201008252105","201008270300",5,"knmi"),
-                            ("201508292005","201508310200",5,"knmi"),
-                            ("200806031205","200806041800",5,"knmi"),
-                            ("201508292005","201508310200",5,"knmi"),
-                            ("201208010605","201208021200",5,"knmi"),
-                            ("201407101005","201407111600",5,"knmi"),
-                            ("201808090605","201808101200",5,"knmi"),
-                            ("201508301305","201508311900",5,"knmi"),
-                            ("201606031605","201606042200",5,"knmi"),
-                            ("201805310605","201806011200",5,"knmi"),
-                            ("201307262305","201307280500",5,"knmi"),
-                            ("201407270305","201407280900",5,"knmi"),
-                            ("201606120805","201606131400",5,"knmi"),
-                            ("201707190505","201707201100",5,"knmi"),
-                            ("201407270605","201407281200",5,"knmi"),
-                            ("201508301205","201508311800",5,"knmi"),
-                            ("201511291405","201511302000",5,"knmi"),
-                            ("200811092105","200811110300",5,"knmi"),
-                            ("200809291605","200809302200",5,"knmi"),
-                            ("201508301805","201509010000",5,"knmi"),
-                            ("201210030405","201210041000",5,"knmi"),
-                            ("201410210305","201410220900",5,"knmi"),
-                            ("201410210305","201410220900",5,"knmi"),
-                            ("200809300305","200810010900",5,"knmi"),
-                            ("200811092105","200811110300",5,"knmi"),
-                            ("201710191805","201710210000",5,"knmi"),
-                            ("200910070605","200910081200",5,"knmi"),
-                            ("201210030305","201210040900",5,"knmi"),
-                            ("201309142005","201309160200",5,"knmi"),
-                            ("201311120805","201311131400",5,"knmi"),
-                            ("201511291505","201511302100",5,"knmi"),
-                            ("200809300405","200810011000",5,"knmi"),
-                            ("201810291605","201810302200",5,"knmi")],
+    "data"              : [('201508131920', '201508132220', 5, 'knmi'), 
+      ('201508132000', '201508132300', 5, 'knmi'), 
+      ('201508261735', '201508262035', 5, 'knmi'), 
+      ('201508261800', '201508262100', 5, 'knmi'), 
+      ('201509041755', '201509042055', 5, 'knmi'), 
+      ('201509041820', '201509042120', 5, 'knmi'), 
+      ('201605301655', '201605301955', 5, 'knmi'), 
+      ('201605301745', '201605302045', 5, 'knmi'), 
+      ('201605301800', '201605302100', 5, 'knmi'), 
+      ('201606201210', '201606201510', 5, 'knmi'), 
+      ('201606201300', '201606201600', 5, 'knmi'), 
+      ('201606222325', '201606230225', 5, 'knmi'), 
+      ('201606230050', '201606230350', 5, 'knmi'), 
+      ('201606230100', '201606230400', 5, 'knmi'), 
+      ('201606230200', '201606230500', 5, 'knmi'), 
+      ('201606230300', '201606230600', 5, 'knmi'), 
+      ('201707061955', '201707062255', 5, 'knmi'), 
+      ('201707062000', '201707062300', 5, 'knmi'), 
+      ('201707120455', '201707120755', 5, 'knmi'), 
+      ('201707120520', '201707120820', 5, 'knmi'), 
+      ('201707120600', '201707120900', 5, 'knmi'), 
+      ('201707120700', '201707121000', 5, 'knmi'), 
+      ('201707291755', '201707292055', 5, 'knmi'), 
+      ('201707291800', '201707292100', 5, 'knmi'), 
+      ('201708300055', '201708300355', 5, 'knmi'), 
+      ('201708300155', '201708300455', 5, 'knmi'), 
+      ('201708300255', '201708300555', 5, 'knmi'), 
+      ('201708300300', '201708300600', 5, 'knmi'), 
+      ('201708300420', '201708300720', 5, 'knmi'), 
+      ('201708300500', '201708300800', 5, 'knmi'), 
+      ('201709081455', '201709081755', 5, 'knmi'), 
+      ('201709081545', '201709081845', 5, 'knmi'), 
+      ('201709081650', '201709081950', 5, 'knmi'), 
+      ('201709081725', '201709082025', 5, 'knmi'), 
+      ('201709081800', '201709082100', 5, 'knmi'), 
+      ('201709081900', '201709082200', 5, 'knmi'), 
+      ('201709141055', '201709141355', 5, 'knmi'), 
+      ('201709141155', '201709141455', 5, 'knmi'), 
+      ('201709141200', '201709141500', 5, 'knmi'), 
+      ('201709141300', '201709141600', 5, 'knmi'), 
+      ('201711270745', '201711271045', 5, 'knmi'), 
+      ('201804102045', '201804102345', 5, 'knmi'), 
+      ('201804102100', '201804110000', 5, 'knmi'), 
+      ('201804102200', '201804110100', 5, 'knmi'), 
+      ('201804292255', '201804300155', 5, 'knmi'), 
+      ('201804292310', '201804300210', 5, 'knmi'), 
+      ('201804300000', '201804300300', 5, 'knmi'), 
+      ('201805291455', '201805291755', 5, 'knmi'), 
+      ('201805291515', '201805291815', 5, 'knmi'), 
+      ('201805291600', '201805291900', 5, 'knmi'), 
+      ('201808101755', '201808102055', 5, 'knmi'), 
+      ('201808101820', '201808102120', 5, 'knmi'), 
+      ('201808101930', '201808102230', 5, 'knmi'), 
+      ('201808102000', '201808102300', 5, 'knmi'), 
+      ('201808242050', '201808242350', 5, 'knmi'), 
+      ('201808242100', '201808250000', 5, 'knmi'), 
+      ('201808242240', '201808250140', 5, 'knmi'), 
+      ('201808242300', '201808250200', 5, 'knmi'), 
+      ('201809050545', '201809050845', 5, 'knmi'), 
+      ('201809050600', '201809050900', 5, 'knmi'), 
+      ('201809050700', '201809051000', 5, 'knmi'), 
+      ('201810300150', '201810300450', 5, 'knmi'), 
+      ('201810300200', '201810300500', 5, 'knmi'), 
+      ('201810300300', '201810300600', 5, 'knmi'), 
+      ('201906052100', '201906060000', 5, 'knmi'), 
+      ('201906052200', '201906060100', 5, 'knmi'), 
+      ('201906052300', '201906060200', 5, 'knmi'), 
+      ('201906120755', '201906121055', 5, 'knmi'), 
+      ('201906120820', '201906121120', 5, 'knmi'), 
+      ('201906120940', '201906121240', 5, 'knmi'), 
+      ('201906121000', '201906121300', 5, 'knmi'), 
+      ('201906150155', '201906150455', 5, 'knmi'), 
+      ('201906150240', '201906150540', 5, 'knmi'), 
+      ('201906150300', '201906150600', 5, 'knmi'), 
+      ('201906150400', '201906150700', 5, 'knmi'), 
+      ('201910061250', '201910061550', 5, 'knmi'), 
+      ('201910210430', '201910210730', 5, 'knmi'), 
+      ('202002091830', '202002092130', 5, 'knmi'), 
+      ('202002091900', '202002092200', 5, 'knmi'), 
+      ('202006050545', '202006050845', 5, 'knmi'), 
+      ('202006050600', '202006050900', 5, 'knmi'), 
+      ('202006122025', '202006122325', 5, 'knmi'), 
+      ('202006171755', '202006172055', 5, 'knmi'), 
+      ('202006171855', '202006172155', 5, 'knmi'), 
+      ('202006171920', '202006172220', 5, 'knmi'), 
+      ('202006172000', '202006172300', 5, 'knmi'), 
+      ('202007251955', '202007252255', 5, 'knmi'), 
+      ('202007252055', '202007252355', 5, 'knmi'), 
+      ('202007252100', '202007260000', 5, 'knmi'), 
+      ('202008161555', '202008161855', 5, 'knmi'), 
+      ('202008161600', '202008161900', 5, 'knmi'), 
+      ('202009232020', '202009232320', 5, 'knmi'), 
+      ('202009232100', '202009240000', 5, 'knmi')],
+     
                                                                                                                                                 
     ## the methods
     "oflow_method"      : ["lucaskanade"],      # lucaskanade, darts
@@ -297,7 +303,7 @@ logging.info("Got the following work in process rank {} : {}".format(rank, workp
 #### before starting any runs, make sure that you know in which folder we run this MPI run routine. 
 #### Always return to this folder before the next run
 #curdir = os.getcwd()
-os.chdir('/u/imhof_rn/pysteps-master')
+#os.chdir('/u/imhof_rn/pysteps-master')
 
 ###########
 # Run the model in parallel
@@ -355,8 +361,6 @@ for n, parset in enumerate(workpernode):
     enddate     = datetime.datetime.strptime(p["data"][1], "%Y%m%d%H%M")
     countnwc = 0
     while startdate <= enddate:
-        try:
-        
             # filename of the nowcast netcdf. Set name either per catchment or as 
             # total nowcast for the entire radar image.
             if catchments == True:
@@ -523,15 +527,12 @@ for n, parset in enumerate(workpernode):
             # next forecast
             startdate += datetime.timedelta(minutes = p["data"][2])
 
-        except ValueError:
-            print('ValueError')
-            # next forecast
-            startdate += datetime.timedelta(minutes = p["data"][2])
+
 
 #    tr.print_diff()
 #    scores.append(n)
     #### RETURN TO THE CORRECT DIRECTORY, JUST IN CASE SOMETHING WAS CHANGED...
-    os.chdir('/u/imhof_rn/pysteps-master')
+  #  os.chdir('/u/imhof_rn/pysteps-master')
 
 #### Wait here so we can collect all runs
 #### Because we distributed the work evenly all processes should be here at approximately the same time

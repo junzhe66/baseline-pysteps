@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def det_cat_fcst(pred, obs, thr, scores):
+def det_cat_fct(pred, obs, thr, scores):
     """Calculate simple and skill scores for deterministic categorical forecasts.
 
     Parameters
